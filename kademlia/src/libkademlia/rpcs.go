@@ -104,7 +104,8 @@ type FindNodeResult struct {
 func (k *KademliaRPC) FindNode(req FindNodeRequest, res *FindNodeResult) error {
 	// TODO: Implement.
 	fmt.Println("In RPC findNode")
-	contacts := k.kademlia.findCloseNodes(req.NodeID, 20)
+	//contacts := k.kademlia.findCloseNodes(req.NodeID, 20)
+	contacts, _ := k.kademlia.FindLocalNodes(req.NodeID)
 	res.MsgID = CopyID(req.MsgID)
 	// res.Nodes = make([]Contact, len(contacts))
 
@@ -143,7 +144,8 @@ func (k *KademliaRPC) FindValue(req FindValueRequest, res *FindValueResult) erro
 	values, _ := k.kademlia.LocalFindValue(req.Key)
 	//values := k.kademlia.HashMap[req.Key]
 	if (values == nil || len(values) == 0 ){
-		contacts := k.kademlia.findCloseNodes(req.Key, 20)
+		//contacts := k.kademlia.findCloseNodes(req.Key, 20)
+		contacts, _ := k.kademlia.FindLocalNodes(req.Key)
 		res.Value = nil
 		res.Nodes = contacts
 		return nil
